@@ -44,9 +44,7 @@ const Bookings = () => {
             // data.map((card, i)=> (<ListingItem card={card} key={i}/>))
 
             data
-              .filter((property) =>
-                bookings.map((booking) => booking.id).includes(property.id)
-              )
+              .filter((property) => (bookings || []).map((booking) => booking.id).includes(property.id))
 
               .filter(
                 (property) =>
