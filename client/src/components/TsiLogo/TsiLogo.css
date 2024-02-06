@@ -1,0 +1,28 @@
+/* Stylish Container */
+.c-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    gap: 1rem;
+    background-color: #f8f8f8; /* Light Background Color */
+    padding: 1.5rem; /* Adjusted padding for spacing */
+    border-radius: 8px; /* Slightly rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Subtle box shadow for depth */
+  }
+  
+  /* Stylish Image */
+  .c-container > img {
+    width: 9rem;
+    height: 9rem;
+    object-fit: cover; /* Maintain aspect ratio */
+    border-radius: 50%; /* Circular image */
+    border: 4px solid #FF5252; /* Red border for a pop of color */
+  }
+  
+  /* Additional Styling */
+  body {
+    font-family: 'Montserrat', sans-serif; /* Choose a modern font */
+    background-color: #ececec; /* Light gray background color */
+    color: #333; /* Dark gray text color */
+  }
+  

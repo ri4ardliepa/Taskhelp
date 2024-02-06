@@ -1,0 +1,44 @@
+.properties-container {
+    gap: 2rem;
+  }
+  
+  .properties-container .search-bar {
+    width: clamp(12rem, 100%, 28rem);
+    border-radius: 25px; /* Slightly increased border-radius */
+    border: 2px solid #3498db; /* Blue border color */
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    transition: border-color 0.3s ease;
+  }
+  
+  .properties-container .search-bar .button {
+    border-radius: 25px;
+    font-size: 14px; /* Maintain font size */
+    padding: 12px 20px; /* Adjusted padding */
+    background-color: #3498db; /* Blue background color */
+    color: #fff; /* White text color */
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .properties-container .search-bar .button:hover {
+    background-color: #2980b9; /* Darker blue on hover */
+  }
+  
+  .properties-container .search-bar input {
+    flex-grow: 1;
+    border: none;
+    outline: none;
+    padding: 12px; /* Adjusted padding */
+    margin-right: 10px; /* Added margin for spacing */
+    font-size: 14px; /* Maintain font size */
+    color: #333; /* Dark text color */
+  }
+  
+  /* Adjustments for a smoother transition effect */
+  .properties-container .search-bar:focus-within {
+    border-color: #2980b9; /* Darker blue on focus */
+  }
+  
