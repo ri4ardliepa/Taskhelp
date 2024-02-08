@@ -2,18 +2,28 @@ import express from "express";
 import {
   bookVisit,
   cancelBooking,
-  createUser,
+  whoAmI,
   getAllBookings,
   getAllFavorites,
   toFav,
 } from "../controllers/userCntrl.js";
-import jwtCheck from "../config/auth0Config.js";
+import { verifyPass } from "../middleware/jwt.js";
+
+
 const router = express.Router();
 
-router.post("/register", jwtCheck, createUser);
-router.post("/bookVisit/:id", jwtCheck, bookVisit);
-router.post("/allBookings", getAllBookings);
-router.post("/removeBooking/:id", jwtCheck, cancelBooking);
-router.post("/toFav/:rid", jwtCheck, toFav);
-router.post("/allFav/", jwtCheck, getAllFavorites);
-export { router as userRoute };
+
+router.post("/whoami", whoAmI)
+
+router.post("/bookVisit/:id", verifyPass(true), bookVisit)
+
+router.post("/allBookings", verifyPass(true), getAllBookings)
+
+router.post("/removeBooking/:id", verifyPass(true), cancelBooking)
+
+router.post("/toFav/:rid", verifyPass(true), toFav)
+
+router.post("/allFav/", verifyPass(true), getAllFavorites)
+
+
+export { router as userRoute }

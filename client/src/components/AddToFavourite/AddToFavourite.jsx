@@ -7,26 +7,25 @@ import UserDetailContext from "../../context/UserDetailContext"
 import { checkFavourites, updateFavourites } from "../../utils/common"
 import { toFav } from "../../utils/api"
 
-const AddToFavourite = ({id}) => {
 
+const AddToFavourite = ({ id }) => {
     const [heartColor, setHeartColor] = useState("white")
-    const {validateLogin} = useAuthentication()
-    const {user} = useAuth0()
+    const { validateLogin } = useAuthentication()
+    const { user } = useAuth0()
 
     const {
-        userDetails: { favourites, token },
+        userDetails,
         setUserDetails,
-      } = useContext(UserDetailContext);
+    } = useContext(UserDetailContext);
 
-      useEffect(()=> {
-            setHeartColor(()=> checkFavourites(id, favourites))
-      },[favourites])
+    useEffect(() => {
+        setHeartColor(() => checkFavourites(id, userDetails.favourites))
+    }, [userDetails.favourites])
 
-
-    const {mutate} = useMutation({
-        mutationFn: () => toFav(id, user?.email, token),
-        onSuccess: ()=> {
-            setUserDetails((prev)=> (
+    const { mutate } = useMutation({
+        mutationFn: () => toFav(id, user?.email, userDetails.token),
+        onSuccess: () => {
+            setUserDetails((prev) => (
                 {
                     ...prev,
                     favourites: updateFavourites(id, prev.favourites)
@@ -36,19 +35,18 @@ const AddToFavourite = ({id}) => {
     })
 
     const handleLike = () => {
-        if(validateLogin())
-        {
+        if (validateLogin()) {
             mutate()
-            setHeartColor((prev)=> prev === "#fa3e5f" ? "white": "#fa3e5f")
+            setHeartColor((prev) => prev === "#fa3e5f" ? "white" : "#fa3e5f")
         }
     }
 
-  return (
-    <AiFillHeart size={24} color={heartColor} onClick={(e)=> {
-        e.stopPropagation()
-        handleLike()
-    }}/>
-  )
+    return (
+        <AiFillHeart size={24} color={heartColor} onClick={(e) => {
+            e.stopPropagation()
+            handleLike()
+        }} />
+    )
 }
 
 export default AddToFavourite

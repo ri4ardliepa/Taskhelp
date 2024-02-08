@@ -4,6 +4,8 @@ import "./Properties.css";
 import useProperties from "../../hooks/useProperties";
 import { PuffLoader } from "react-spinners";
 import ListingItem from "../../components/ListingItem/ListingItem";
+
+
 const Properties = () => {
   const { data, isError, isLoading } = useProperties();
   const [filter, setFilter] = useState("");
@@ -37,7 +39,7 @@ const Properties = () => {
           {
             // data.map((card, i)=> (<ListingItem card={card} key={i}/>))
 
-            data
+            (data || [])
               .filter(
                 (property) =>
                   property.title.toLowerCase().includes(filter.toLowerCase()) ||

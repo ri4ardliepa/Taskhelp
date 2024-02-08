@@ -3,7 +3,7 @@ import dayjs from "dayjs";
 import { toast } from "react-toastify";
 
 export const api = axios.create({
-  baseURL: "http://localhost:8000/api",
+  baseURL: "http://localhost:8000/api"
 });
 
 export const getAllProperties = async () => {
@@ -38,22 +38,17 @@ export const getProperty = async (id) => {
   }
 };
 
-export const createUser = async (email, token) => {
+export const whoAmI = async (data) => {
   try {
-    await api.post(
-      `/user/register`,
-      { email },
-      {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      }
-    );
+    const res = await api.post('/user/whoami', data);
+
+    return res
   } catch (error) {
     toast.error("Something went wrong, Please try again");
     throw error;
   }
 };
+
 
 export const bookVisit = async (date, propertyId, email, token) => {
   try {
@@ -98,6 +93,8 @@ export const removeBooking = async (id, email, token) => {
 };
 
 export const toFav = async (id, email, token) => {
+  console.log(token)
+
   try {
     await api.post(
       `/user/toFav/${id}`,
@@ -117,8 +114,8 @@ export const toFav = async (id, email, token) => {
 
 
 export const getAllFav = async (email, token) => {
-  if(!token) return 
-  try{
+  if (!token) return
+  try {
 
     const res = await api.post(
       `/user/allFav`,
@@ -131,20 +128,19 @@ export const getAllFav = async (email, token) => {
         },
       }
     );
-      
+
     return res.data["favResidenciesID"]
 
-  }catch(e)
-  {
+  } catch (e) {
     toast.error("Something went wrong while fetching favs");
     throw e
   }
-} 
+}
 
 
 export const getAllBookings = async (email, token) => {
-  
-  if(!token) return 
+
+  if (!token) return
   try {
     const res = await api.post(
       `/user/allBookings`,
@@ -159,7 +155,7 @@ export const getAllBookings = async (email, token) => {
     );
     return res.data["bookedVisits"];
 
-    
+
   } catch (error) {
     toast.error("Something went wrong while fetching bookings");
     throw error
@@ -169,20 +165,18 @@ export const getAllBookings = async (email, token) => {
 
 export const createResidency = async (data, token) => {
   console.log(data)
-  try{
+
+  try {
     const res = await api.post(
       `/residency/create`,
-      {
-        data
-      },
+      { data },
       {
         headers: {
           Authorization: `Bearer ${token}`,
         },
       }
     )
-  }catch(error)
-  {
+  } catch (error) {
     throw error
   }
 }

@@ -6,6 +6,7 @@ import ListingItem from "../../components/ListingItem/ListingItem";
 import "../Properties/Properties.css";
 import UserDetailContext from "../../context/UserDetailContext";
 
+
 const Bookings = () => {
   const { data, isError, isLoading } = useProperties();
   const [filter, setFilter] = useState("");
@@ -43,7 +44,7 @@ const Bookings = () => {
           {
             // data.map((card, i)=> (<ListingItem card={card} key={i}/>))
 
-            data
+            (data || [])
               .filter((property) => (bookings || []).map((booking) => booking.id).includes(property.id))
 
               .filter(

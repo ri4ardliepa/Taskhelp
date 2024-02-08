@@ -6,6 +6,7 @@ import ListingItem from "../../components/ListingItem/ListingItem";
 import "../Properties/Properties.css";
 import UserDetailContext from "../../context/UserDetailContext";
 
+
 const Favourites = () => {
   const { data, isError, isLoading } = useProperties();
   const [filter, setFilter] = useState("");
@@ -13,7 +14,7 @@ const Favourites = () => {
     userDetails: { favourites },
   } = useContext(UserDetailContext);
 
-  console.log("data",data)
+  console.log("data", data)
   console.log("filter", filter)
 
   if (isError) {
@@ -23,7 +24,7 @@ const Favourites = () => {
       </div>
     );
   }
-  
+
 
   if (isLoading) {
     return (
@@ -47,9 +48,9 @@ const Favourites = () => {
           {
             // data.map((card, i)=> (<ListingItem card={card} key={i}/>))
 
-            data
+            (data || [])
               .filter((property) => (favourites || []).includes(property.id))
-            
+
               .filter(
                 (property) =>
                   property.title.toLowerCase().includes(filter.toLowerCase()) ||

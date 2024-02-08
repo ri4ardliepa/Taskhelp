@@ -1,5 +1,6 @@
 import React from "react";
 import './TsiLogo.css'
+
 const TsiLogo = () => {
   return (
     <section className="c-wrapper">

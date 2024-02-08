@@ -17,6 +17,8 @@ import UserDetailContext from "../../context/UserDetailContext.js";
 import { Button } from "@mantine/core";
 import { toast } from "react-toastify";
 import AddToFavourite from "../../components/AddToFavourite/AddToFavourite";
+
+
 const Property = () => {
   const { pathname } = useLocation();
   const id = pathname.split("/").slice(-1)[0];
@@ -69,8 +71,8 @@ const Property = () => {
     <div className="wrapper">
       <div className="flexColStart paddings innerWidth property-container">
         {/* like button */}
-        <div className="like">
-          <AddToFavourite id={id}/>
+        <div className="like" style={{ zIndex: 20 }}>
+          <AddToFavourite id={id} />
         </div>
 
         {/* image */}
@@ -152,12 +154,12 @@ const Property = () => {
                 Book your visit
               </button>
             )}
-
             <VisitBooking
+              propertyId={id}
+              price={data?.price}
+              email={user?.email}
               opened={modalOpened}
               setOpened={setModalOpened}
-              propertyId={id}
-              email={user?.email}
             />
           </div>
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./Header.css";
 import { BiMenuAltRight } from "react-icons/bi";
 import { getMenuStyles } from "../../utils/common";
@@ -9,26 +9,47 @@ import { useAuth0 } from "@auth0/auth0-react";
 import UserMenu from "../UserMenu/UserMenu";
 import NewPropertyModal from "../NewPropertyModal/NewPropertyModal";
 import useAuthentication from "../../hooks/useAuthentication.jsx";
+import UserDetailContext from "../../context/UserDetailContext.js";
+import { whoAmI } from "../../utils/api"
+
 
 const Header = () => {
   const [menuOpened, setMenuOpened] = useState(false);
   const headerColor = useHeaderColor();
   const [modalOpened, setModalOpened] = useState(false);
-  const { loginWithRedirect, isAuthenticated, user, logout } = useAuth0();
+  const { loginWithRedirect, isAuthenticated, user, isLoading, logout } = useAuth0();
   const { validateLogin } = useAuthentication();
 
+  const { setUserDetails } = useContext(UserDetailContext)
 
   const handleAddPropertyClick = () => {
     if (validateLogin()) {
       setModalOpened(true);
     }
-  };
+  }
+
+  useEffect(() => {
+    const getToken = async () => {
+      const data = {
+        email: user.email,
+        image: user.picture || null,
+        name: user.nickname || user.name || null,
+      }
+
+      const res = await whoAmI(data)
+
+      setUserDetails(res.data)
+    }
+
+    if (user && user.email) getToken()
+  }, [user])
+
   return (
     <section className="h-wrapper" style={{ background: headerColor }}>
-      <div className="flexCenter innerWidth paddings h-container">
+      <div className="flexSpaceBetween innerWidth paddings h-container">
         {/* logo */}
         <Link to="/">
-          <img src="./graduation.png" alt="logo" width={100} />
+          <img src="/graduation.png" alt="logo" width={100} />
         </Link>
 
         {/* menu */}
@@ -42,7 +63,7 @@ const Header = () => {
             className="flexCenter h-menu"
             style={getMenuStyles(menuOpened)}
           >
-            <NavLink to="/properties">Find you property</NavLink>
+            <NavLink to="/properties">Find your property</NavLink>
 
             <a href="mailto:zainkeepscode@gmail.com">Contact Us</a>
 
@@ -50,17 +71,23 @@ const Header = () => {
             <div onClick={handleAddPropertyClick}>Add Property</div>
             <NewPropertyModal opened={modalOpened} setOpened={setModalOpened} />
             {/* login button */}
-            {!isAuthenticated ? (
-              <button className="button" onClick={loginWithRedirect}>
-                Login
-              </button>
-            ) : (
-              <UserMenu user={user} logout={logout} />
-            )}
+            {
+              !isLoading && (
+                <>
+                  {
+                    !isAuthenticated ? (
+                      <button className="button" onClick={loginWithRedirect}>
+                        Login
+                      </button>
+                    ) : (
+                      <UserMenu user={user} logout={logout} />
+                    )
+                  }
+                </>
+              )
+            }
           </div>
         </OutsideClickHandler>
-
-        {/* for medium and small screens */}
         <div
           className="menu-icon"
           onClick={() => setMenuOpened((prev) => !prev)}
@@ -69,7 +96,8 @@ const Header = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
+
 
 export default Header;
